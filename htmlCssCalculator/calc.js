@@ -132,26 +132,29 @@ document.querySelector('.buttons').onclick = (event) => {
 
     //% was pressed
     if (key === '%'){
+        let result = Number(a);
         if (a !=='' && b !=='' && sign !==''){  
             let percentage = (+b) * ((+a)/100);
             switch(sign){
                 case '+':
-                    a += percentage;
+                    result += percentage;
                     break;
                 case '-':
-                    a -= percentage;
+                    result -= percentage;
                     break;
                 case 'X':
-                    a *= percentage;
+                    result *= percentage;
                     break;
                 case '/':
-                    a /= percentage;
+                    result /= percentage;
                     break;
             }
         }
         b = '';
         finish = true;
+        a = result.toString();
         out.textContent = a;
-        console.log(a, b, sign);
+        console.log(result, b, sign);
+        return;
     }
 }
