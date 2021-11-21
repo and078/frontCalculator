@@ -153,6 +153,15 @@ document.querySelector('.buttons').onclick = (event) => {
         b = '';
         finish = true;
         a = result.toString();
+        let aLen = a.toString().length;
+
+        if (aLen > len){
+            size /= Math.trunc(aLen / len) + 1;
+            len *= 2;
+            out.style.fontSize = `${size}rem`;
+        }
+     
+
         out.textContent = a;
         console.log(result, b, sign);
         return;
