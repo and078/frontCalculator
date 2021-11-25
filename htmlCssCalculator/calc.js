@@ -26,6 +26,7 @@ function clearAll(){
 
 function resizeFont(a){
     let len = a.toString().length;
+    if(len < 4) return 4;
     return 27 / len ;
 }
 
