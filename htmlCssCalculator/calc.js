@@ -24,6 +24,10 @@ function clearAll(){
     console.log('ac')
 }
 
+function resizeFont(a){
+    let len = a.toString().length;
+    return 27 / len ;
+}
 
 document.querySelector('.ac').onclick = clearAll;
 
@@ -31,8 +35,7 @@ document.querySelector('.buttons').onclick = (event) => {
     console.log(a, b, sign);
 
     if (a.toString().length >= len || (a.toString().length + b.length + 1) >= len){
-        size /= 2;
-        len *= 2;
+        size = resizeFont(`${a}${b}${sign}`);
         out.style.fontSize = `${size}rem`;
     }
     
@@ -108,20 +111,18 @@ document.querySelector('.buttons').onclick = (event) => {
                 a = (+a) / (+b);
                 break;
         }
-        finish = true;
-        
-        if (a.toString().length < (len / 2) || (a.toString().length + b.length + 1) < (len / 2)){
-            if (size < 4) size *= 2;
-            if (len > 8) len /= 2;
-            out.style.fontSize = `${size}rem`;
-        }
 
+        finish = true;
+        size = resizeFont(a);
+        out.style.fontSize = `${size}rem`;
         out.textContent = a;
         console.log(a, b, sign);
-        if (a !=='' && b !=='' && (+b) === 0){
+
+        if (a !=='' && b !=='' && (+b) === 0 && sign === '/'){
             out.style.fontSize = "2.5rem";
             out.textContent = 'ZeroDivision\nError';    
         }
+        return;
     }
 
     // +/- was pressed
@@ -153,15 +154,8 @@ document.querySelector('.buttons').onclick = (event) => {
         b = '';
         finish = true;
         a = result.toString();
-        let aLen = a.toString().length;
-
-        if (aLen > len){
-            size /= Math.trunc(aLen / len) + 1;
-            len *= 2;
-            out.style.fontSize = `${size}rem`;
-        }
-     
-
+        size = resizeFont(a);
+        out.style.fontSize = `${size}rem`;
         out.textContent = a;
         console.log(result, b, sign);
         return;
