@@ -19,7 +19,6 @@ function clearAll(){
     finish = false;
     out.style.fontSize = '4rem';
     size = 4;
-    len = 8;
     out.textContent = '0';
     console.log('ac')
 }
@@ -27,7 +26,7 @@ function clearAll(){
 function resizeFont(a){
     let len = a.toString().length;
     if(len < 4) return 4;
-    return 27 / len ;
+    return 29 / len ;
 }
 
 document.querySelector('.ac').onclick = clearAll;
@@ -52,13 +51,16 @@ document.querySelector('.buttons').onclick = (event) => {
 
     //was pressed 0-9 or .
     if (digits.includes(key)){
+        if (key === '.') dotWasPressed = true;
         if (b === '' && sign === ''){
             a += key;
             if(a[0] === '0' && a.length === 1) a = '0';
             if (a[0] === '0' && a[1] !== '.' && a[1] !== undefined){
                 a = '0';
             }
+            
             else if (a[0] === '.' && a.length === 1) a = '0' + a;
+            else if (a.split('.').length > 2) a = a.slice(0, -1);
             out.textContent = a;
         }
         else if (a !== '' && b !== '' && finish){
@@ -69,10 +71,9 @@ document.querySelector('.buttons').onclick = (event) => {
         else{
             b += key;
             if(b[0] === '0' && b.length === 1) b = '0';
-            if (b[0] === '0' && b[1] !=='.' && b[1] !== undefined){
-                b = '0';
-            }
+            if (b[0] === '0' && b[1] !=='.' && b[1] !== undefined) b = '0';
             else if (b[0] === '.' && b.length === 1) b = '0' + b;
+            else if (b.split('.').length > 2) b = b.slice(0, -1);
             out.textContent = `${a}${sign}${b}`;
         }
         console.log(a, b, sign);
