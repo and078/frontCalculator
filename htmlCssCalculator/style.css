@@ -17,6 +17,7 @@
     justify-items: end;
     align-items: end;
     margin-bottom: 23px;
+    user-select: none;
 }
 
 .calc-screen p {

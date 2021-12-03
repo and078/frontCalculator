@@ -48,4 +48,10 @@
     $(function () {
         $("#calculator").fadeIn(1000);
     });
+
+    $('.btn').click(function () {
+        // $(".btn").trigger("onclick").fadeOut(300).fadeIn(300);
+        // $(this).animate({height: '70px', width: '70px'}, 100).animate({height: '60px', width: '60px'}, 100);
+        $(this).animate({fontSize: '4rem'}, 80).animate({fontSize: '1.5rem'}, 80);
+    });
 </script>
