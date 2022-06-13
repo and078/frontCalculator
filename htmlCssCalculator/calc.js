@@ -1,8 +1,8 @@
-let a = ''; //first number
-let b = ''; //second number
-let sign = '';//operator
+let firstNumber = '';
+let secondNumber = '';
+let sign = '';
 let cashedSign = '';
-let finish = false;
+let operationFinished = false;
 let size = 4;
 let len = 8;
 
@@ -13,16 +13,17 @@ const actions = ['-', '+', '/', 'X'];
 const out = document.querySelector('.calc-screen p');
 
 function clearAll(){
-    a = '';
-    b = '';
+    firstNumber = '';
+    secondNumber = '';
     sign = '';
-    finish = false;
+    operationFinished = false;
     out.style.fontSize = '4rem';
     size = 4;
     out.textContent = '0';
     console.log('ac')
 }
 
+//function to resize font for display all digits
 function resizeFont(a){
     let len = a.toString().length;
     if(len < 4) return 4;
@@ -32,10 +33,10 @@ function resizeFont(a){
 document.querySelector('.ac').onclick = clearAll;
 
 document.querySelector('.buttons').onclick = (event) => {
-    console.log(a, b, sign);
+    console.log(firstNumber, secondNumber, sign);
 
-    if (a.toString().length >= len || (a.toString().length + b.length + 1) >= len){
-        size = resizeFont(`${a}${b}${sign}`);
+    if (firstNumber.toString().length >= len || (firstNumber.toString().length + secondNumber.length + 1) >= len){
+        size = resizeFont(`${firstNumber}${secondNumber}${sign}`);
         out.style.fontSize = `${size}rem`;
     }
     
@@ -52,75 +53,75 @@ document.querySelector('.buttons').onclick = (event) => {
     //was pressed 0-9 or .
     if (digits.includes(key)){
         if (key === '.') dotWasPressed = true;
-        if (b === '' && sign === ''){
-            a += key;
-            if(a[0] === '0' && a.length === 1) a = '0';
-            if (a[0] === '0' && a[1] !== '.' && a[1] !== undefined){
-                a = '0';
+        if (secondNumber === '' && sign === ''){
+            firstNumber += key;
+            if(firstNumber[0] === '0' && firstNumber.length === 1) firstNumber = '0';
+            if (firstNumber[0] === '0' && firstNumber[1] !== '.' && firstNumber[1] !== undefined){
+                firstNumber = '0';
             }
             
-            else if (a[0] === '.' && a.length === 1) a = '0' + a;
-            else if (a.split('.').length > 2) a = a.slice(0, -1);
-            out.textContent = a;
+            else if (firstNumber[0] === '.' && firstNumber.length === 1) firstNumber = '0' + firstNumber;
+            else if (firstNumber.split('.').length > 2) firstNumber = firstNumber.slice(0, -1);
+            out.textContent = firstNumber;
         }
-        else if (a !== '' && b !== '' && finish){
-            b = key;
-            finish = false;
-            out.textContent = `${a}${sign}${b}`;
+        else if (firstNumber !== '' && secondNumber !== '' && operationFinished){
+            secondNumber = key;
+            operationFinished = false;
+            out.textContent = `${firstNumber}${sign}${secondNumber}`;
         }
         else{
-            b += key;
-            if(b[0] === '0' && b.length === 1) b = '0';
-            if (b[0] === '0' && b[1] !=='.' && b[1] !== undefined) b = '0';
-            else if (b[0] === '.' && b.length === 1) b = '0' + b;
-            else if (b.split('.').length > 2) b = b.slice(0, -1);
-            out.textContent = `${a}${sign}${b}`;
+            secondNumber += key;
+            if(secondNumber[0] === '0' && secondNumber.length === 1) secondNumber = '0';
+            if (secondNumber[0] === '0' && secondNumber[1] !=='.' && secondNumber[1] !== undefined) secondNumber = '0';
+            else if (secondNumber[0] === '.' && secondNumber.length === 1) secondNumber = '0' + secondNumber;
+            else if (secondNumber.split('.').length > 2) secondNumber = secondNumber.slice(0, -1);
+            out.textContent = `${firstNumber}${sign}${secondNumber}`;
         }
-        console.log(a, b, sign);
+        console.log(firstNumber, secondNumber, sign);
         return;
     }
 
     //was pressed sign
     if (actions.includes(key)){
         cashedSign = key;
-        if(a !=='' && b !==''){
+        if(firstNumber !=='' && secondNumber !==''){
             document.getElementById('equals').click();    
         }
         sign = key;
-        out.textContent = `${a}${sign}`;
-        console.log(a, b, sign);
+        out.textContent = `${firstNumber}${sign}`;
+        console.log(firstNumber, secondNumber, sign);
         return;
     }
 
     //was pressed =
     if (key === '='){
-        if (a !=='' && b ===''){
-            out.textContent = (+a);
+        if (firstNumber !=='' && secondNumber ===''){
+            out.textContent = (+firstNumber);
             sign = '';
             return;
         }
         switch(sign){
             case '+':
-                a = (+a) + (+b);
+                firstNumber = (+firstNumber) + (+secondNumber);
                 break;
             case '-':
-                a = (+a) - (+b);
+                firstNumber = (+firstNumber) - (+secondNumber);
                 break;
             case 'X':
-                a = (+a) * (+b);
+                firstNumber = (+firstNumber) * (+secondNumber);
                 break;
             case '/':
-                a = (+a) / (+b);
+                firstNumber = (+firstNumber) / (+secondNumber);
                 break;
         }
 
-        finish = true;
-        size = resizeFont(a);
+        operationFinished = true;
+        size = resizeFont(firstNumber);
         out.style.fontSize = `${size}rem`;
-        out.textContent = a;
-        console.log(a, b, sign);
+        out.textContent = firstNumber;
+        console.log(firstNumber, secondNumber, sign);
 
-        if (a !=='' && b !=='' && (+b) === 0 && sign === '/'){
+        if (firstNumber !=='' && secondNumber !=='' && (+secondNumber) === 0 && sign === '/'){
             out.style.fontSize = "2.5rem";
             out.textContent = 'ZeroDivision\nError';    
         }
@@ -129,15 +130,15 @@ document.querySelector('.buttons').onclick = (event) => {
 
     // +/- was pressed
     if (key === '+/-'){
-        a*= -1;
-        out.textContent = a;    
+        firstNumber*= -1;
+        out.textContent = firstNumber;    
     }
 
     //% was pressed
     if (key === '%'){
-        let result = Number(a);
-        if (a !=='' && b !=='' && sign !==''){  
-            let percentage = (+b) * ((+a)/100);
+        let result = Number(firstNumber);
+        if (firstNumber !=='' && secondNumber !=='' && sign !==''){  
+            let percentage = (+secondNumber) * ((+firstNumber)/100);
             switch(sign){
                 case '+':
                     result += percentage;
@@ -153,13 +154,13 @@ document.querySelector('.buttons').onclick = (event) => {
                     break;
             }
         }
-        b = '';
-        finish = true;
-        a = result.toString();
-        size = resizeFont(a);
+        secondNumber = '';
+        operationFinished = true;
+        firstNumber = result.toString();
+        size = resizeFont(firstNumber);
         out.style.fontSize = `${size}rem`;
-        out.textContent = a;
-        console.log(result, b, sign);
+        out.textContent = firstNumber;
+        console.log(result, secondNumber, sign);
         return;
     }
 }
